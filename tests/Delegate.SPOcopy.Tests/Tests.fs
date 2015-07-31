@@ -1,6 +1,6 @@
-﻿module FSharp.ProjectScaffold.Tests
+module Delegate.SPOcopy.Tests
 
-open FSharp.ProjectTemplate
+open Delegate.SPOcopy
 open NUnit.Framework
 
 [<Test>]

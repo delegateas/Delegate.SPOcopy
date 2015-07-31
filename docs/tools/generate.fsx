@@ -11,17 +11,17 @@
 // (This is the original behaviour of ProjectScaffold prior to multi project support)
 let referenceBinaries = []
 // Web site location for the generated documentation
-let website = "/##ProjectName##"
+let website = "/Delegate.SPOcopy"
 
-let githubLink = "http://github.com/##GitHome##/##GitName##"
+let githubLink = "http://github.com/delegateas/Delegate.SPOcopy"
 
 // Specify more information about your project
 let info =
-  [ "project-name", "##ProjectName##"
-    "project-author", "##Author##"
-    "project-summary", "##Summary##"
+  [ "project-name", "Delegate.SPOcopy"
+    "project-author", "Ramón Soto Mathiesen"
+    "project-summary", "A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names."
     "project-github", githubLink
-    "project-nuget", "http://nuget.org/packages/##ProjectName##" ]
+    "project-nuget", "http://nuget.org/packages/Delegate.SPOcopy" ]
 
 // --------------------------------------------------------------------------------------
 // For typical project, no changes are needed below

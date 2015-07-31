@@ -1,0 +1,23 @@
+type project
+owners
+    Ramón Soto Mathiesen
+authors 
+    Ramón Soto Mathiesen
+projectUrl
+    http://github.com/delegateas/Delegate.SPOcopy
+iconUrl
+    https://raw.githubusercontent.com/delegateas/Delegate.SPOcopy/master/docs/files/img/logo.png
+licenseUrl
+    http://github.com/delegateas/Delegate.SPOcopy/blob/master/LICENSE.txt
+requireLicenseAcceptance
+    false
+copyright
+    Copyright 2015
+tags
+    fsharp sharepoint online copy async
+summary
+    A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names.
+description
+    A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names.
+
+

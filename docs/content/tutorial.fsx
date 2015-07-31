@@ -10,8 +10,8 @@ Introducing your project
 Say more
 
 *)
-#r "FSharp.ProjectScaffold.dll"
-open FSharp.ProjectScaffold
+#r "Delegate.SPOcopy.dll"
+open Delegate.SPOcopy
 
 Library.hello 0
 (**

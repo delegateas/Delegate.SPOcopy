@@ -1,4 +1,4 @@
-﻿namespace FSharp.ProjectTemplate
+namespace Delegate.SPOcopy
 
 /// Documentation for my library
 ///
