@@ -11,6 +11,7 @@ NUGET
     Microsoft.Bcl (1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
     Microsoft.Bcl.Build (1.0.21)
+    Microsoft.IdentityModel (6.1.7600.16394)
     Microsoft.Net.Http (2.2.29)
       Microsoft.Bcl (>= 1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
@@ -22,5 +23,5 @@ NUGET
 GITHUB
   remote: fsharp/FAKE
   specs:
-    modules/Octokit/Octokit.fsx (69ef5a5ccc1ece211a241fa43781b53d49e58475)
+    modules/Octokit/Octokit.fsx (5fa687a82085399a625b0dfd84751fe81d4b3a6c)
       Octokit
