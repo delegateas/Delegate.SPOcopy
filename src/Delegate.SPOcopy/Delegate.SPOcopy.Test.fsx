@@ -1,4 +1,4 @@
-#r @"System.ServiceModel"
+﻿#r @"System.ServiceModel"
 #r @"Microsoft.IdentityModel"
 #r @"Delegate.SPOcopy.dll"
 
@@ -8,10 +8,10 @@ open Delegate
 open Delegate.SPOcopy
 
 (**
-Sample script
-=============
+Unittest setup
+==============
 
-Setup of values *)
+Setup of shared values *)
 let usr = @"admin@sharepointonlinecopy.onmicrosoft.com"
 let pwd = @"pass@word1"
 let source = @"D:\tmp\spo-copy"
@@ -21,5 +21,20 @@ let o365 =
     Office365.getCookieContainer host usr pwd,
     Office365.userAgent
 
-(** Copy from local source to online target *)
-copy source target usr pwd LogLevel.Info
+(**
+Test cases
+==========
+
+Define *)
+let tc1 () = copy source target usr pwd LogLevel.Verbose = ()
+
+(**
+Run test cases
+==============
+
+Place test cases result in a list *)
+let unitTest  = [| tc1; |]
+let unitTest' = unitTest |> Array.Parallel.map(fun x -> x())
+
+(** Combine results *)
+let result = unitTest' |> Array.reduce ( && )

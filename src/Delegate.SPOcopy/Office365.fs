@@ -1,4 +1,4 @@
-namespace Delegate.SPOcopy
+namespace Delegate
 
 module Office365 = 
   open System

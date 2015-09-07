@@ -33,7 +33,7 @@
     <OutputPath>.\bin\Release</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>.\bin\Release\Delegate.SPOcopy.xml</DocumentationFile>
+    <DocumentationFile>.\bin\Release\Delegate.SPOcopy.XML</DocumentationFile>
     <OtherFlags>--warnon:1182</OtherFlags>
   </PropertyGroup>
   <ItemGroup>
@@ -55,6 +55,9 @@
   <ItemGroup>
     <Compile Include="Office365.fs" />
     <Compile Include="SPOcopy.fs" />
+    <None Include="Delegate.SPOcopy.Test.fsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Delegate.SPOcopy.Sample.fsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
