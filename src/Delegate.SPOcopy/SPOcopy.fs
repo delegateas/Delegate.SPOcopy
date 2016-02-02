@@ -165,7 +165,7 @@ module SPOcopy =
 
       let formDigest o365 (host:Uri) (digest:FormDigest) items log = 
         match digest.soonExpire items with
-        | true ->  formDigestHelper o365 host log
+        | true  -> formDigestHelper o365 host log
         | false -> digest
 
       let exists (path:string) spoUrls o365 = async{
