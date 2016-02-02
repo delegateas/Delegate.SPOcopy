@@ -11,8 +11,8 @@ module SPOcopy =
   open Microsoft.FSharp.Reflection
 
   type SPOitems = Folders | Files
-  type FormDigest = {value : string; timeout : float; created : DateTime} with
-    static member create v t d = {FormDigest.value = v; timeout = t; created = d}
+  type FormDigest = { value : string; timeout : float; created : DateTime } with
+    static member create v t d = { value = v; timeout = t; created = d }
     member x.soonExpire items = 
       let y = items |> function | Folders -> 5. | Files -> 10.
       DateTime.Now.AddSeconds(x.timeout / y) > x.created.AddSeconds (x.timeout)
