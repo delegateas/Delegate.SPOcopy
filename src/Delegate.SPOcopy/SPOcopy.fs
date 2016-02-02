@@ -19,16 +19,18 @@ module SPOcopy =
 
   [<AutoOpen>]
   module Either = 
-    type ('a,'b) Choice with 
-      static member Left  x = Choice1Of2 x
-      static member Right x = Choice2Of2 x
     type ('a,'b) Either = Choice<'a,'b>
+    let success x : Either<'a,'b> = Choice1Of2 x
+    let failure x : Either<'a,'b> = Choice2Of2 x
 
-    let (|Left|Right|) = function
-      | Choice1Of2 x -> Left x | Choice2Of2 x -> Right x
-    let bind f = function | Left a -> f a | Right b -> Either.Right b
-    let chooseLeft  = function | Left s -> Some s | Right _ -> None
-    let chooseRight = function | Left _ -> None   | Right b -> Some b
+    let (|Success|Failure|) = function
+      | Choice1Of2 x -> Success x | Choice2Of2 x -> Failure x
+
+    let inline bind f    = function | Success a -> f a | Failure b -> failure b
+    let inline (>>=) m f = bind f m
+
+    let succeeded  = function | Success s -> Some s | Failure _ -> None
+    let failed     = function | Success _ -> None   | Failure b -> Some b
 
   [<AutoOpen>]
   module Logger =
@@ -46,9 +48,10 @@ module SPOcopy =
     let cw (s:string) = Console.WriteLine(s)
     let cew (s:string) = Console.Error.WriteLine(s)
 
-    type Log(level:LogLevel) =
-      member x.writeLine l y =
-        match level.HasFlag l with
+    type Log = 
+      { level : LogLevel }
+      member x.print l y = 
+        match x.level.HasFlag l with
         | false -> ()
         | true -> 
           let msg = sprintf "%s - %A: %A" (ts()) l y
@@ -153,7 +156,7 @@ module SPOcopy =
             |> Seq.head
             |> fun x -> Double.Parse(s = x.Value)
           FormDigest.create value timeout (created ())
-        with ex -> log.writeLine LogLevel.Error ex; raise ex
+        with ex -> log.print LogLevel.Error ex; raise ex
 
       let formDigest o365 (host:Uri) (digest:FormDigest) items log = 
         match digest.soonExpire items with
@@ -210,7 +213,7 @@ module SPOcopy =
       | Files -> Directory.EnumerateFiles(path)
     |> Seq.split 1000
     |> Seq.iter(fun xs ->
-      log.writeLine LogLevel.Verbose
+      log.print LogLevel.Verbose
         (sprintf "Creating/Uploading %4i %s, path: %s"
           (Array.length xs) (Util.ducToString items) path)
   
@@ -223,28 +226,27 @@ module SPOcopy =
       |> fun ys ->
         let success = 
           ys 
-          |> Array.Parallel.choose(Either.chooseLeft)
+          |> Array.Parallel.choose(Either.succeeded)
           |> Array.Parallel.choose(id)
 
         success
-        |> Array.Parallel.map(
-          fun (x,y) -> 
+        |> Array.Parallel.map(fun (x,y) -> 
             CRUD.create x y o365 
               (SPO.CRUD.formDigest o365 host digest items log).value items)
         |> Async.Parallel
         |> Async.RunSynchronously
         |> fun zs ->
-          let failure  = ys |> Array.Parallel.choose(Either.chooseRight)
-          let failure' = zs |> Array.Parallel.choose(Either.chooseRight)
+          let failure  = ys |> Array.Parallel.choose(Either.failed)
+          let failure' = zs |> Array.Parallel.choose(Either.failed)
 
-          failure  |> Array.iter(log.writeLine LogLevel.Error)
-          failure' |> Array.iter(log.writeLine LogLevel.Error)
+          failure  |> Array.iter(log.print LogLevel.Error)
+          failure' |> Array.iter(log.print LogLevel.Error)
 
           match items with
             | Files -> ()
             | Folders ->
               zs 
-              |> Array.Parallel.choose(Either.chooseLeft)
+              |> Array.Parallel.choose(Either.succeeded)
               |> Array.Parallel.choose(id)
               |> Array.Parallel.map(fun (x,_) -> x)
               |> Array.Parallel.iter(
@@ -256,11 +258,11 @@ module SPOcopy =
     let host = Uri(url.GetLeftPart(UriPartial.Authority))
     let urlRoot = url.ToString().Replace(host.ToString(),String.Empty)
     let o365 = Office365.getCookieContainer host usr pwd, Office365.userAgent
-    let log = Logger.Log(loglvl)
+    let log = { Log.level = loglvl }
 
-    log.writeLine LogLevel.Info "SharePoint Online copy (SPOcopy) - Started"
+    log.print LogLevel.Info "SharePoint Online copy (SPOcopy) - Started"
 
     copyHelper local local host urlRoot o365
       (SPO.CRUD.formDigestHelper o365 host log) SPOitems.Folders log
 
-    log.writeLine LogLevel.Info "SharePoint Online copy (SPOcopy) - Terminated"
+    log.print LogLevel.Info "SharePoint Online copy (SPOcopy) - Terminated"
