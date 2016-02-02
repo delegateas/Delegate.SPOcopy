@@ -39,10 +39,15 @@ module SPOcopy =
     // Error   = (1 <<< 2)
     // Verbose = (1 <<< 0) ||| (1 <<< 1) ||| (1 <<< 2)
     type LogLevel = 
-        | Info    = 5 // Indicates logs for an informational message and errors
-        | Warning = 6 // Indicates logs for a warning and errors
-        | Error   = 4 // Indicates logs for an error.
-        | Verbose = 7 // Indicates logs at all levels.
+      | Info    = 5 // Indicates logs for an informational message and errors
+      | Warning = 6 // Indicates logs for a warning and errors
+      | Error   = 4 // Indicates logs for an error.
+      | Verbose = 7 // Indicates logs at all levels.
+
+    let info    = LogLevel.Info
+    let warning = LogLevel.Warning
+    let error   = LogLevel.Error
+    let verbose = LogLevel.Verbose
 
     let ts () = DateTime.Now.ToString("o") // ISO-8601
     let cw (s:string) = Console.WriteLine(s)
@@ -156,7 +161,7 @@ module SPOcopy =
             |> Seq.head
             |> fun x -> Double.Parse(s = x.Value)
           FormDigest.create value timeout (created ())
-        with ex -> log.print LogLevel.Error ex; raise ex
+        with ex -> log.print error ex; raise ex
 
       let formDigest o365 (host:Uri) (digest:FormDigest) items log = 
         match digest.soonExpire items with
@@ -185,7 +190,7 @@ module SPOcopy =
           let _, url = spoUrls
           let cookie, agent = o365
           let req = HttpWebRequest.Create(requestUriString = url) :?> HttpWebRequest
-          req.Headers.Add("X-RequestDigest", digest)
+          req.Headers.Add("X-RequestDigest", digest().value)
           req.Method <- "POST"
           req.Accept <- "application/json;odata=verbose"
           req.CookieContainer <- cookie
@@ -213,7 +218,7 @@ module SPOcopy =
       | Files -> Directory.EnumerateFiles(path)
     |> Seq.split 1000
     |> Seq.iter(fun xs ->
-      log.print LogLevel.Verbose
+      log.print verbose
         (sprintf "Creating/Uploading %4i %s, path: %s"
           (Array.length xs) (Util.ducToString items) path)
   
@@ -232,15 +237,15 @@ module SPOcopy =
         success
         |> Array.Parallel.map(fun (x,y) -> 
             CRUD.create x y o365 
-              (SPO.CRUD.formDigest o365 host digest items log).value items)
+              (fun () -> SPO.CRUD.formDigest o365 host digest items log) items)
         |> Async.Parallel
         |> Async.RunSynchronously
         |> fun zs ->
           let failure  = ys |> Array.Parallel.choose(Either.failed)
           let failure' = zs |> Array.Parallel.choose(Either.failed)
 
-          failure  |> Array.iter(log.print LogLevel.Error)
-          failure' |> Array.iter(log.print LogLevel.Error)
+          failure  |> Array.iter(log.print error)
+          failure' |> Array.iter(log.print error)
 
           match items with
             | Files -> ()
@@ -260,9 +265,9 @@ module SPOcopy =
     let o365 = Office365.getCookieContainer host usr pwd, Office365.userAgent
     let log = { Log.level = loglvl }
 
-    log.print LogLevel.Info "SharePoint Online copy (SPOcopy) - Started"
+    log.print info "SharePoint Online copy (SPOcopy) - Started"
 
     copyHelper local local host urlRoot o365
       (SPO.CRUD.formDigestHelper o365 host log) SPOitems.Folders log
 
-    log.print LogLevel.Info "SharePoint Online copy (SPOcopy) - Finished"
+    log.print info "SharePoint Online copy (SPOcopy) - Finished"
