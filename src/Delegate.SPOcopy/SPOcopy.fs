@@ -265,4 +265,4 @@ module SPOcopy =
     copyHelper local local host urlRoot o365
       (SPO.CRUD.formDigestHelper o365 host log) SPOitems.Folders log
 
-    log.print LogLevel.Info "SharePoint Online copy (SPOcopy) - Terminated"
+    log.print LogLevel.Info "SharePoint Online copy (SPOcopy) - Finished"
