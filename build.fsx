@@ -31,11 +31,11 @@ let project = "Delegate.SPOcopy"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
-let summary = "A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names."
+let summary = "A library that copies a local folder, including files and subfolders (recursively), to SharePoint Online, ensuring valid SharePoint relative url names."
 
 // Longer description of the project
 // (used as a description for NuGet package; line breaks are automatically cleaned up)
-let description = "A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names."
+let description = "A library that copies a local folder, including files and subfolders (recursively), to SharePoint Online, ensuring valid SharePoint relative url names."
 
 // List of author names (for NuGet package)
 let authors = [ "Ramón Soto Mathiesen" ]
@@ -207,8 +207,8 @@ Target "GenerateHelp" (fun _ ->
     Rename "docs/content/release-notes.md" "docs/content/RELEASE_NOTES.md"
 
     DeleteFile "docs/content/license.md"
-    CopyFile "docs/content/" "LICENSE.txt"
-    Rename "docs/content/license.md" "docs/content/LICENSE.txt"
+    CopyFile "docs/content/" "license.md"
+//    Rename "docs/content/license.md" "docs/content/LICENSE.txt"
 
     generateHelp true
 )
@@ -219,8 +219,8 @@ Target "GenerateHelpDebug" (fun _ ->
     Rename "docs/content/release-notes.md" "docs/content/RELEASE_NOTES.md"
 
     DeleteFile "docs/content/license.md"
-    CopyFile "docs/content/" "LICENSE.txt"
-    Rename "docs/content/license.md" "docs/content/LICENSE.txt"
+    CopyFile "docs/content/" "license.md"
+//    Rename "docs/content/license.md" "docs/content/LICENSE.txt"
 
     generateHelp' true true
 )

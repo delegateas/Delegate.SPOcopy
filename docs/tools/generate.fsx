@@ -19,7 +19,8 @@ let githubLink = "http://github.com/delegateas/Delegate.SPOcopy"
 let info =
   [ "project-name", "Delegate.SPOcopy"
     "project-author", "Ramón Soto Mathiesen"
-    "project-summary", "A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names."
+    "project-summary", "A library that copies a local folder, including files and subfolders (recursively), to SharePoint Online, ensuring valid SharePoint relative url names."
+    "project-page", "http://delegateas.github.io/"
     "project-github", githubLink
     "project-nuget", "http://nuget.org/packages/Delegate.SPOcopy" ]
 

@@ -8,7 +8,7 @@ projectUrl
 iconUrl
     https://raw.githubusercontent.com/delegateas/Delegate.SPOcopy/master/docs/files/img/logo.png
 licenseUrl
-    http://github.com/delegateas/Delegate.SPOcopy/blob/master/LICENSE.txt
+    http://github.com/delegateas/Delegate.SPOcopy/blob/master/LICENSE.md
 requireLicenseAcceptance
     false
 copyright
@@ -16,8 +16,8 @@ copyright
 tags
     fsharp sharepoint online copy async
 summary
-    A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names.
+    A library that copies a local folder, including files and subfolders (recursively), to SharePoint Online, ensuring valid SharePoint relative url names.
 description
-    A library that copies a local folder, including files (recursively), to SharePoint Online, ensuring valid SharePoint relative url names.
+    A library that copies a local folder, including files and subfolders (recursively), to SharePoint Online, ensuring valid SharePoint relative url names.
 
 
