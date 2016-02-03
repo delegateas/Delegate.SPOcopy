@@ -80,7 +80,7 @@ How it works and limitations
     - In order to be able to upload the files with the mminimal amount of 
       **noise** we rely on using SharePoint Onlines REST service instead of their
       SOAP, see [Martin Lawrence REST vs SOAP][ml] for more info. This allows
-      us to use F# powerfull `async` but simple engine to implement parallelism.
+      us to use F# powerfull but simple `async` engine to implement parallelism.
     - For more information, please look into the code (about +275 lines) at [GitHub][gh]
 
  * We describe a few **limitations** we found while we were making the library:
@@ -90,9 +90,9 @@ How it works and limitations
       Office365 Admin just creates a new service account in the cloud without
       synchronization with the local AD.
     - **No executable**: The reason we haven't created an executable file is that
-      we then have to rely on .bat or .cmd files in order to execute the 
-      application command-line arguments. We think that the approach of creating
-      a type-safe F# script file is a much better approach.
+      we then have to rely on .bat or .cmd file in order to execute the 
+      application with command-line arguments. We think that the approach of
+      creating a type-safe F# script file is a much better approach.
 *)
  
 (**
