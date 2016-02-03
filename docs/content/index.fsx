@@ -70,7 +70,6 @@ Delegate.SPOcopy.Error.txt:
 > created in about two hours on the SharePoint Online instance, with no errors
 > whatsoever *)
 
-
 (** <img src="img/files_local_vs_sp.png" /> *)
 
 (**
