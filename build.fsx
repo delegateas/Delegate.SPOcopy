@@ -40,6 +40,10 @@ let description = "A library that copies a local folder, including files and sub
 // List of author names (for NuGet package)
 let authors = [ "Ramón Soto Mathiesen" ]
 
+// Company and copyright information
+let company = "Delegate"
+let copyright = @"Copyleft (ɔ) Delegate A/S 2015"
+
 // Tags for your project (for NuGet package)
 let tags = "fsharp sharepoint online copy async"
 
@@ -59,6 +63,13 @@ let gitName = "Delegate.SPOcopy"
 
 // The url for the raw files hosted
 let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/delegateas"
+
+// The profile where the docs project is posted 
+let docsGitHome = "https://github.com/delegateas"
+// The name of the project on GitHub
+let docsGitName = "delegateas.github.io"
+// The name of the subfolder
+let docsGitSubName = "Delegate.Sandbox"
 
 // --------------------------------------------------------------------------------------
 // END TODO: The rest of the file includes standard build steps
@@ -81,6 +92,8 @@ Target "AssemblyInfo" (fun _ ->
         [ Attribute.Title (projectName)
           Attribute.Product project
           Attribute.Description summary
+          Attribute.Company company
+          Attribute.Copyright copyright
           Attribute.Version release.AssemblyVersion
           Attribute.FileVersion release.AssemblyVersion ]
 
@@ -282,14 +295,29 @@ Target "AddLangDocs" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Release Scripts
 
-Target "ReleaseDocs" (fun _ ->
-    let tempDocsDir = "temp/gh-pages"
-    CleanDir tempDocsDir
-    Repository.cloneSingleBranch "" (gitHome + "/" + gitName + ".git") "gh-pages" tempDocsDir
+//Target "ReleaseDocs" (fun _ ->
+//    let tempDocsDir = "temp/gh-pages"
+//    CleanDir tempDocsDir
+//    Repository.cloneSingleBranch "" (gitHome + "/" + gitName + ".git") "gh-pages" tempDocsDir
+//
+//    CopyRecursive "docs/output" tempDocsDir true |> tracefn "%A"
+//    StageAll tempDocsDir
+//    Git.Commit.Commit tempDocsDir (sprintf "Update generated documentation for version %s" release.NugetVersion)
+//    Branches.push tempDocsDir
+//)
 
-    CopyRecursive "docs/output" tempDocsDir true |> tracefn "%A"
-    StageAll tempDocsDir
-    Git.Commit.Commit tempDocsDir (sprintf "Update generated documentation for version %s" release.NugetVersion)
+Target "ReleaseDocs" (fun _ ->
+    let tempDocsDir = "temp/docs"
+    let tempDocsSubDir = tempDocsDir @@ docsGitSubName
+    CleanDir tempDocsDir
+    Repository.cloneSingleBranch "" (docsGitHome + "/" + docsGitName + ".git") 
+      "master" tempDocsDir
+    fullclean tempDocsSubDir
+    CopyRecursive "docs/output" tempDocsSubDir true |> tracefn "%A"
+    StageAll tempDocsSubDir
+    Git.Commit.Commit tempDocsSubDir
+      (sprintf "Update generated documentation for version %s"
+        release.NugetVersion)
     Branches.push tempDocsDir
 )
 
