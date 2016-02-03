@@ -24,7 +24,7 @@ Delegate.SPOcopy
 What is it?
 -----------
 
-Delegate.SharePoint Online copy (Delegate.SPOcopy) is a library that copies a
+Delegate SharePoint Online copy (Delegate.SPOcopy) is a library that copies a
 local folder, including files and subfolders (recursively), to SharePoint Online,
 ensuring valid SharePoint relative url names.
 
