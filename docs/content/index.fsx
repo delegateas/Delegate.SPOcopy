@@ -53,24 +53,25 @@ copy source target usr pwd LogLevel.Info
 (**
 Evaluates to the following output when called as:
 <pre>
-fsianycpu Delegate.SPOcopy.Sample.fsx > Delegate.SPOcopy.Sample.Output.txt 2> Delegate.SPOcopy.Sample.Error.txt
+fsianycpu Delegate.SPOcopy.Sample.fsx > Delegate.SPOcopy.Output.txt 2> Delegate.SPOcopy.Error.txt
 </pre>
 
-Delegate.SPOcopy.Sample.Output.txt:
+Delegate.SPOcopy.Output.txt:
 <pre>
 2016-02-03T08:08:01.5752722+01:00 - Info: "SharePoint Online copy (SPOcopy) - Started"
 2016-02-03T10:12:27.6846710+01:00 - Info: "SharePoint Online copy (SPOcopy) - Finished"
 </pre>
 
-Delegate.SPOcopy.Sample.Error.txt:
+Delegate.SPOcopy.Error.txt:
 <pre>
 </pre>
-
-TODO: Insert Image here
 
 > **Remark**: As we can see, the 33.198 files and 1.630 folders (1 GB) are
 > created in about two hours on the SharePoint Online instance, with no errors
 > whatsoever *)
+
+
+(** <img src="img/files_local_vs_sp.png" /> *)
 
 (**
 How it works and limitations
@@ -107,8 +108,8 @@ redistribution for both commercial and non-commercial purposes. For more informa
 [License file][license] in the GitHub repository. 
 
   [ml]: http://stackoverflow.com/a/8983122
-  [gh]: https://github.com/delegateas/Delegate.SPOcopy
   [rh]: https://twitter.com/ronnieholm
+  [gh]: https://github.com/delegateas/Delegate.SPOcopy
   [issues]: https://github.com/delegateas/Delegate.SPOcopy/issues
   [license]: https://github.com/delegateas/Delegate.SPOcopy/blob/sync/LICENSE.md 
 *)

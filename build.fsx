@@ -69,7 +69,7 @@ let docsGitHome = "https://github.com/delegateas"
 // The name of the project on GitHub
 let docsGitName = "delegateas.github.io"
 // The name of the subfolder
-let docsGitSubName = "Delegate.Sandbox"
+let docsGitSubName = "Delegate.SPOcopy"
 
 // --------------------------------------------------------------------------------------
 // END TODO: The rest of the file includes standard build steps
